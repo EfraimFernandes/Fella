@@ -8,7 +8,7 @@ module.exports = {
         const msg = await message.channel.send(`🏓 Ping... Caralho!`);
 
         const pingEmbed = new client.discord.EmbedBuilder()
-            .setTitle(':signal_strength: 🏓 Pong')
+            .setTitle(':signal_strength: 🏓 Pong...')
             .addFields(
                 {name:"Latência", value:`${Math.floor(msg.createdAt - message.createdAt)}ms`},
                 {name:"API Ping", value:`${client.ws.ping}ms`}
