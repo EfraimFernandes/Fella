@@ -29,7 +29,7 @@ module.exports = {
 
             const helpEmbed = new client.discord.EmbedBuilder()
                 .setTitle(`${client.user.username} Help`)
-                .setDescription(` Olá **<@${message.author.id}>**, Eu sou <@${client.user.id}>.  \nVocê pode usar \`!help <commando>\` para ver mais informações sobre os comandos!\n**Todos os comandos de prefixo:** ${client.commands.size}\n**Todos os SlashCommands:** ${client.slash.size}`)
+                .setDescription(` Olá **<@${message.author.id}>**, Eu sou o <@${client.user.id}>.  \nVocê pode usar \`!help\` para ver mais informações sobre os comandos!\n**Todos os comandos de prefixo:** ${client.commands.size}\n**Todos os SlashCommands:** ${client.slash.size}`)
                 .addFields(
                     {name:"🤖 - Bot Commands", value: botCommandsList.map((data) => `${data}`).join(", ")},
                     {name:"🛠 - Utility Commands", value: utilityCommandsList.map((data) => `${data}`).join(", ")}
