@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require('discord.js');
+
 module.exports = {
     name: "ping",
     aliases: ["pong", "latency"],
@@ -5,14 +7,14 @@ module.exports = {
     description: "Verificar a latência do bot",
     ownerOnly: false,
     run: async (client, message) => {
-        const msg = await message.channel.send(`🏓 Ping... Caralho!`);
+        const msg = await message.channel.send(`🏓 Ping...`);
 
-        const pingEmbed = new client.discord.EmbedBuilder()
+        const pingEmbed = new EmbedBuilder()
             .setTitle(':signal_strength: 🏓 Pong...')
             .addFields(
-                {name:"Latência", value:`${Math.floor(msg.createdAt - message.createdAt)}ms`},
-                {name:"API Ping", value:`${client.ws.ping}ms`}
-                )
+                { name: "Latência", value: `${Math.floor(msg.createdAt - message.createdAt)}ms` },
+                { name: "API Ping", value: `${client.ws.ping}ms` }
+            )
             .setColor(client.config.embedColor)
             .setFooter({ text: `${client.config.embedfooterText}`, iconURL: `${client.user.displayAvatarURL()}` });
 

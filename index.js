@@ -1,55 +1,59 @@
-const { Client, Collection, Partials, GatewayIntentBits} = require('discord.js');
-const handler = require("./handler/index");
-const myIntents = [
-  GatewayIntentBits.Guilds,
-  GatewayIntentBits.GuildMembers,
-  GatewayIntentBits.GuildBans,
-  GatewayIntentBits.GuildEmojisAndStickers,
-  GatewayIntentBits.GuildIntegrations,
-  GatewayIntentBits.GuildWebhooks,
-  GatewayIntentBits.GuildInvites,
-  GatewayIntentBits.GuildVoiceStates,
-  GatewayIntentBits.GuildPresences,
-  GatewayIntentBits.GuildMessages,
-  GatewayIntentBits.GuildMessageReactions,
-  GatewayIntentBits.GuildMessageTyping,
-  GatewayIntentBits.DirectMessages,
-  GatewayIntentBits.DirectMessageReactions,
-  GatewayIntentBits.DirectMessageTyping,
-  GatewayIntentBits.MessageContent
-]
+require('dotenv').config();
 
-const myPartials = [
-  Partials.Channel,
-  Partials.Message,
-  Partials.Reaction
-]
+const { Client, Collection, Partials, GatewayIntentBits, IntentsBitField } = require('discord.js');
+const handler = require("./handler/index");
+
 const client = new Client({
-  partials: myPartials,
-  intents: myIntents
+    partials: [
+        Partials.Channel,
+        Partials.Message,
+        Partials.Reaction
+    ],
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildBans,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildIntegrations,
+        GatewayIntentBits.GuildWebhooks,
+        GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMessageTyping,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping,
+        GatewayIntentBits.MessageContent,
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.MessageContent
+    ]
 });
 
-const Discord = require('discord.js');
-require('dotenv').config()
-
-module.exports = client;
-
-client.discord = Discord;
 client.commands = new Collection();
 client.slash = new Collection();
-client.config = require('./config')
+client.config = require('./config');
 
 // Carregar comando e eventos
 handler.loadEvents(client);
 handler.loadCommands(client);
 handler.loadSlashCommands(client);
 
-// Erro no Handling
+// Importar e registrar comandos
+const slotsCommand = require('./commands/Games/slots');
+client.commands.set(slotsCommand.name, slotsCommand);
 
+const pingCommand = require('./commands/Utility/ping');
+client.commands.set(pingCommand.name, pingCommand);
+
+// Erro no Handling
 process.on("uncaughtException", (err) => {
     console.log("Uncaught Exception: " + err);
 });
-  
+
 process.on("unhandledRejection", (reason, promise) => {
     console.log("[GRAVE] Rejeição possivelmente não tratada em: Promise ", promise, " motivo: ", reason.message);
 });
